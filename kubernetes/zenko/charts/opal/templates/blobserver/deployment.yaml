@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "blobserver.fullname" . }}
@@ -56,8 +56,8 @@ spec:
           livenessProbe:
             tcpSocket:
               port: http
-              initialDelaySeconds: 15
-              periodSeconds: 20
+            initialDelaySeconds: 15
+            periodSeconds: 20
           readinessProbe:
             httpGet:
               path: /_/healthcheck/deep

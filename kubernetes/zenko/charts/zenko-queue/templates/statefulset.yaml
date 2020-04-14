@@ -1,5 +1,5 @@
 {{- $advertisedListenersOverride := first (pluck "advertised.listeners" .Values.configurationOverrides) }}
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ include "kafka.fullname" . }}
@@ -11,6 +11,9 @@ metadata:
 spec:
   serviceName: {{ include "kafka.fullname" . }}-headless
   podManagementPolicy: {{ .Values.podManagementPolicy }}
+  selector:
+    matchLabels:
+      app: {{ include "kafka.name" . }}
   updateStrategy:
 {{ toYaml .Values.updateStrategy | indent 4 }}
   replicas: {{ default 3 .Values.replicas }}
@@ -226,7 +229,6 @@ spec:
         secret:
           secretName: {{ .name }}
       {{- end }}
-      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
   {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:
   - metadata:
