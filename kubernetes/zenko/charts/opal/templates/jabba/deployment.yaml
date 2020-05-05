@@ -1,4 +1,4 @@
-{{- if .Values.jabba.enabled -}}
+{{- if and .Values.blobserver.enabled .Values.jabba.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
